@@ -67,7 +67,7 @@ To set up the project, follow these steps:
 3. Create a firestore database instance
 4. Get firebase config from firebase project settings in firebase console
 5. Create a `.env` file in the root of the project using `sample.env` as a template:
-   The default values in `sample.env` are configured to connect to the production MarvelAI server (app.marvelai.app). You can keep these values if you want to use the production firebase backend (Firestore and Functions), or update them to point to your own firebase project.
+   The default values in `sample.env` are configured to connect to the production MarvelAI server (app.marvelai.app). You can keep these values if you want to use the production firebase backend (Firestore and Functions), or update them to point to your own firebase project which you can get from firebase console > Project settings > General (scroll to bottom).
 
 6. Install Firebase CLI by running the following in terminal: `npm install -g firebase-tools`
 7. Login to firebase CLI by running the following command: `firebase login`
@@ -84,7 +84,7 @@ This will start the frontend on localhost:3000 and connect to your deployed Fire
 - Test frontend changes against the production backend
 - Don't need to modify backend functionality
 
-#### Option 2: Full Local Development Environment
+#### Option 2: Full Local Development Environment (RECOMMENDED)
 ```bash
 npm run dev:all
 ```
@@ -96,9 +96,11 @@ This starts both the frontend and Firebase emulators locally, providing a comple
 
 ### Accessing the Application
 1. Once the development server is running, visit: `http://localhost:3000/`
-2. Register a new account using the signup form
-3. You'll be taken to a confirmation page
-4. In development mode, you can simply return to `http://localhost:3000/` and you'll be logged in automatically without email confirmation
+2. Login using the following credentials:
+   - Email: `user@test.com`
+   - Password: `Test@123`
+3. After logging in, you'll be required to complete the onboarding process.
+4. Once the onboarding is complete, you can start using the application.
 
 Note: If you experience any issues with hanging emulator processes after stopping the development server, you can clean them up by running:
 ```bash
@@ -126,6 +128,7 @@ firebase use <project-id>
 Once your Firebase project is properly configured:
 1. Install all dependencies: `npm run install:all`
 2. Deploy the project (frontend and functions): `npm run deploy`
+*In case your env file is not being picked at the deployment time, duplicate the .env file in /functions folder
 
 ## Contributing
 1. Fork the Repository: Create a personal fork of the repository to work on.

@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const { https } = require('firebase-functions');
+const { https } = require('firebase-functions/v1');
 
 /**
  * Creates a new user document in the Firestore collection "users" with the provided data.
