@@ -2,5 +2,16 @@
   "eslint.workingDirectories": [
     { "pattern": "./functions/*" },
     { "pattern": "./frontend/*" }
-  ]
+  ],
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true
+  }
 }
