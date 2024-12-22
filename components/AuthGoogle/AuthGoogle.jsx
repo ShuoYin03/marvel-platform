@@ -1,64 +1,63 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Button, Typography } from '@mui/material';
+import { Google as GoogleIcon } from '@mui/icons-material';
+import { useContext } from 'react';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
-import Link from 'next/link.js';
-
-import styles from './styles.js';
+import styles from './styles';
+import { AuthContext } from '@/libs/providers/GlobalProvider';
+import { setLoading } from '@/libs/redux/slices/authSlice';
+import { auth, firestore } from '@/libs/redux/store';
+import fetchUserData from '@/libs/redux/thunks/user';
+import ROUTES from '@/libs/constants/routes';
+import ALERT_COLORS from '@/libs/constants/notification';
 
 /**
- * Renders an authentication form with options for local authentication and third-party authentication services.
+ * Handles Google authentication and renders the Google authentication button.
  *
- * @param {object} props - The props object.
- * @param {JSX.Element} props.form - The JSX element for the local authentication form.
- * @param {object} props.title - The title object.
- * @param {string} props.title.main - The main title text.
- * @param {string} props.title.subtitle - The subtitle text.
- * @param {string} props.title.route - The link URL.
- * @param {string} props.title.linklabel - The label for the link.
- * @return {JSX.Element} The authentication form JSX.
+ * @return {JSX.Element} The Google authentication button JSX.
  */
-const AuthForm = (props) => {
-  const {
-    form,
-    goBack,
-    title: { main, subtitle, route, linklabel },
-  } = props;
+const AuthGoogle = () => {
+  const { handleOpenSnackBar } = useContext(AuthContext);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-  const renderTitle = () => {
-    return (
-      <Grid {...styles.titleGridProps}>
-        <Typography {...styles.mainTitleProps}>{main}</Typography>
-        <Typography {...styles.subTitleProps}>
-          {subtitle} <Link href={route}>{linklabel}</Link>
-        </Typography>
-      </Grid>
-    );
-  };
+  const handleGoogleAuth = async () => {
+    const provider = new GoogleAuthProvider();
 
-  const renderForm = () => {
-    return <Grid {...styles.formGridProps}>{form}</Grid>;
-  };
+    try {
+      const userCred = await signInWithPopup(auth, provider);
+      const user = userCred.user;
 
-  const renderPolicyInfo = () => {
-    return (
-      <Grid {...styles.policyInfoGridConfig}>
-        <Typography {...styles.policyInfoTextConfig}>
-          This site is protected by reCAPTCHA and the Google
-        </Typography>
-        <Typography {...styles.linksConfig}>
-          Privacy Policy and Terms of Service apply.
-        </Typography>
-      </Grid>
-    );
+      dispatch(setLoading(true));
+      const userData = await dispatch(
+        fetchUserData({ firestore, id: user.uid })
+      ).unwrap();
+
+      if (userData?.needsBoarding) {
+        router.replace(ROUTES.ONBOARDING);
+      } else {
+        router.replace(ROUTES.HOME);
+      }
+    } catch (error) {
+      handleOpenSnackBar(ALERT_COLORS.ERROR, 'Google sign-in failed. Please try again.');
+    }
   };
 
   return (
-    <Grid {...styles.mainGridProps}>
-      {goBack}
-      {renderTitle()}
-      {renderForm()}
-      {renderPolicyInfo()}
+    <Grid {...styles.googleAuthGridProps}>
+      <Button
+        {...styles.externalAuthButtonConfig}
+        startIcon={<GoogleIcon />}
+        onClick={handleGoogleAuth}
+      >
+      </Button>
+      <Typography {...styles.googleAuthDisclaimerProps}>
+        By continuing, you agree to the Terms of Service and Privacy Policy.
+      </Typography>
     </Grid>
   );
 };
 
-export default AuthForm;
+export default AuthGoogle;

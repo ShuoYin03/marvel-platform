@@ -4,7 +4,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    rowGap: { laptop: 4, desktop: 5, desktopMedium: 8 },
+    rowGap: { laptop: 4, desktop: 5, desktopMedium: 4 },
     height: '100%',
   },
   formGridProps: {
@@ -16,6 +16,19 @@ const styles = {
     px: { laptop: 10, desktop: 12, desktopMedium: 14 },
     sx: {
       '& form': {
+        width: '100%',
+      },
+    },
+  },
+  googleAuthGridProps: {
+    container: true,
+    item: true,
+    justifyContent: 'center',
+    alignItems: 'center',
+    rowGap: 4,
+    px: { laptop: 10, desktop: 12, desktopMedium: 14 },
+    sx: {
+      '& googleAuth': {
         width: '100%',
       },
     },
