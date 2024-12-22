@@ -25,6 +25,8 @@ import fetchUserData from '@/libs/redux/thunks/user';
 
 import AUTH_REGEX from '@/libs/regex/auth';
 
+import AuthGoogle from '@/components/AuthGoogle';
+
 const DEFAULT_FORM_VALUES = {
   email: typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'user@test.com' : '',
   password: typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'Test@123' : '',
@@ -159,6 +161,14 @@ const SignInForm = (props) => {
     );
   };
 
+  const renderGoogleAuth = () => {
+    return (
+      <Grid {...styles.googleAuthGridProps}>
+        <AuthGoogle/>
+      </Grid>
+    )
+  }
+  
   return (
     <FormContainer
       defaultValues={DEFAULT_FORM_VALUES}
@@ -168,6 +178,7 @@ const SignInForm = (props) => {
         {renderEmailInput()}
         {renderPaswordInput()}
         {renderSubmitButton()}
+        {renderGoogleAuth()}
       </Grid>
     </FormContainer>
   );

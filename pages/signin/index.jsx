@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import AuthForm from '@/components/AuthForm';
-import AuthGoogle from '@/components/AuthGoogle';
 import AuthLayout from '@/layouts/AuthLayout';
 
 import ForgotPasswordPage from '@/templates/SignIn/ForgotPasswordPage';
@@ -33,7 +32,6 @@ const SignIn = () => {
       {isSignIn && (
         <AuthForm
           form={<SignInForm handleSwitch={handleSwitchScreen} />}
-          googleAuth={<AuthGoogle/>}
           title={TITLE_CONFIG}
         />
       )}

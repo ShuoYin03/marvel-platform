@@ -19,7 +19,6 @@ import styles from './styles.js';
 const AuthForm = (props) => {
   const {
     form,
-    googleAuth,
     goBack,
     title: { main, subtitle, route, linklabel },
   } = props;
@@ -39,10 +38,6 @@ const AuthForm = (props) => {
     return <Grid {...styles.formGridProps}>{form}</Grid>;
   };
 
-  const renderGoogleAuth = () => {
-    return <Grid {...styles.googleAuthGridProps}>{googleAuth}</Grid>;
-  }
-
   const renderPolicyInfo = () => {
     return (
       <Grid {...styles.policyInfoGridConfig}>
@@ -61,7 +56,6 @@ const AuthForm = (props) => {
       {goBack}
       {renderTitle()}
       {renderForm()}
-      {renderGoogleAuth()}
       {renderPolicyInfo()}
     </Grid>
   );
